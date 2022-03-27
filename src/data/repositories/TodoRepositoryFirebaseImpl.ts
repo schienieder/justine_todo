@@ -10,7 +10,7 @@ import {
     deleteDoc,
     doc,
     query,
-    where
+    serverTimestamp
 } from 'firebase/firestore'
 
 export default class TodoRepositoryFirebaseImpl implements TodoRepository {
@@ -18,13 +18,14 @@ export default class TodoRepositoryFirebaseImpl implements TodoRepository {
 
     async GetTodos(): Promise<Todo[]> {
         this.colRef = collection(db, 'todos')
-        const data = await getDocs(this.colRef)
-        const myTodos = data.docs.map((todo: any) => ({...todo.data(), id : todo.id }))
+        const getQuery = query(this.colRef, orderBy('createdAt', 'desc'))
+        const data = await getDocs(getQuery)
+        const myTodos = data.docs.map((todo: any) => ({id : todo.id, description: todo.data().description }))
         return myTodos
     }
 
     async AddTodo(todo_description: string) {
-        await addDoc(this.colRef, { description : todo_description })
+        await addDoc(this.colRef, { description : todo_description, createdAt : serverTimestamp() })
     }
 
     async UpdateTodo(todo: Todo) {
