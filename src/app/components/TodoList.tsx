@@ -1,22 +1,20 @@
 import React from 'react'
 import { useAppSelector, useAppDispatch } from '../redux/hooks'
-import { editTodo, removeTodo } from '../redux/todo/todo.slice'
+import { editTodo, removeFireBaseTodo, fetchFireBaseTodos } from '../redux/todo/todo.slice'
 import Todo from '../../domain/entities/Todo'
 import Swal from 'sweetalert2'
 import { useRouter } from 'next/router'
+import PulseLoader from 'react-spinners/PulseLoader'
 
 const TodoList = () => {
 
     const todos = useAppSelector(state => state.todoState.todos)
+    const loading = useAppSelector(state => state.todoState.loading)
     const dispatch = useAppDispatch()
     const router = useRouter()
     const onClickEdit = (todo : { id: string, description: string }) => {
-        const { id, description } = todo
         dispatch(editTodo(todo))
-        router.push({
-            pathname : '/edit',
-            query : { id : id, description : description }
-        })
+        router.push('/edit')
     }
     const onDeleteTodo = (id: string) => {
         Swal.fire({
@@ -29,7 +27,8 @@ const TodoList = () => {
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                dispatch(removeTodo(id))
+                dispatch(removeFireBaseTodo(id))
+                dispatch(fetchFireBaseTodos())
                 Swal.fire({
                     title : 'Deleted!',
                     text: 'Todo has been deleted.',
@@ -49,7 +48,7 @@ const TodoList = () => {
                 <p className="text-sm">{ description }</p>
                 <div className="flex gap-x-3">
                     <button 
-                        className="bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg p-2"
+                        className="actionBtn"
                         onClick={ () => onClickEdit(todo) }
                     >
                         <svg 
@@ -64,7 +63,7 @@ const TodoList = () => {
                         </svg>
                     </button>
                     <button 
-                        className="bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg p-2"
+                        className="actionBtn"
                         onClick={ () => onDeleteTodo(id) }
                     >
                         <svg 
@@ -84,8 +83,12 @@ const TodoList = () => {
     })
 
     return (
-        <div className="flex flex-col gap-y-5">
-            { renderTodos }
+        <div className="flex flex-col gap-y-5 pb-5">
+            { 
+                loading ?
+                    <PulseLoader color="#4f46e5" loading={ loading } size={15} />
+                : renderTodos
+            }
         </div>
     )
 }

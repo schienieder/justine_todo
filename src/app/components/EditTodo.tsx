@@ -1,13 +1,14 @@
 import React, { useState, useRef } from 'react'
 import Header from './Header'
 import { useRouter } from 'next/router'
-import { useAppDispatch } from '../redux/hooks'
-import { updateTodo } from '../redux/todo/todo.slice'
+import { useAppDispatch, useAppSelector } from '../redux/hooks'
+import { updateFireBaseTodo, fetchFireBaseTodos } from '../redux/todo/todo.slice'
 
 const EditTodo = () => {
 
     const router = useRouter()
-    const { id, description } = router.query
+    const editInfo = useAppSelector(state => state.todoState.editInfo)
+    const { id, description } = editInfo
     const [editDescription, setEditDescription] = useState('')
     const [hasEditError, setHasEditError] = useState(false)
     const dispatch = useAppDispatch()
@@ -15,7 +16,7 @@ const EditTodo = () => {
     const onClickSubmit = () => {
         if (myEl.current.value.length > 0) {
             setHasEditError(false)
-            dispatch(updateTodo({ id, description : editDescription || description }))
+            dispatch(updateFireBaseTodo({ id, description : editDescription || description }))
             router.back()
         }
         else {

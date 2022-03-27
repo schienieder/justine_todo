@@ -12,12 +12,15 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.0",
+    "firebase": "^9.6.9",
     "next": "^11.1.3",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-modal": "^3.14.4",
     "react-redux": "^7.2.6",
-    "sweetalert2": "^11.4.4"
+    "react-spinners": "^0.11.0",
+    "sweetalert2": "^11.4.4",
+    "tailwindcss": "^3.0.23"
   },
   "devDependencies": {
     "@types/node": "^15.3.0",
@@ -41,7 +44,10 @@
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "postcss": "^8.4.8",
     "prettier": "^2.3.0",
-    "tailwindcss": "^3.0.23",
     "typescript": "^4.2.4"
-  }
+  },
+  "main": "index.js",
+  "repository": "https://github.com/schienieder/justine_todo.git",
+  "author": "schieneider <schieniedertorres@gmail.com>",
+  "license": "MIT"
 }

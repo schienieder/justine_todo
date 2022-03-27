@@ -9,19 +9,20 @@ export default class TodoServiceImpl {
         this.todoRepo = tr
     }
     
-    GetTodos(): Array<Todo> {
+    async GetTodos(): Promise<Todo[]> {
         return this.todoRepo.GetTodos()
     }
+    
 
-    AddTodo(todo: Todo): Todo {
-        return this.todoRepo.AddTodo(todo)
+    async AddTodo(todo_description: string) {
+        return this.todoRepo.AddTodo(todo_description)
     }
 
-    UpdateTodo(todo: Todo): Array<Todo> {
+    UpdateTodo(todo: Todo) {
         return this.todoRepo.UpdateTodo(todo)
     }
 
-    DeleteTodo(todo_id: string): Array<Todo> {
+    async DeleteTodo(todo_id: string) {
         return this.todoRepo.DeleteTodo(todo_id)
     }
 

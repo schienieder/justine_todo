@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useAppDispatch } from '../redux/hooks'
-import { addTodo } from '../redux/todo/todo.slice'
+import { addFireBaseTodo, fetchFireBaseTodos } from '../redux/todo/todo.slice'
 
 const TodoAddForm = () => {
     
@@ -10,7 +10,8 @@ const TodoAddForm = () => {
     const submitTodo = () => {
         if (description.length > 0) {
             setHasError(false)
-            dispatch(addTodo(description))
+            dispatch(addFireBaseTodo(description))
+            dispatch(fetchFireBaseTodos())
             setDescription('')
         }
         else {
@@ -48,6 +49,7 @@ const TodoAddForm = () => {
             }
             <button 
                 className="btnPrimary"
+                type="button"
                 onClick={ submitTodo }
             >Submit</button>
         </div>

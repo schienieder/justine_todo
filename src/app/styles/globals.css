@@ -13,3 +13,7 @@
 .btnPrimary {
     @apply outline-none px-3 py-2 rounded-lg font-bold text-sm text-white tracking-wider bg-indigo-600 hover:bg-indigo-500;
 }
+
+.actionBtn {
+    @apply bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg p-2;
+}
